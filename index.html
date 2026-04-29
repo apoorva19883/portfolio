@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apoorva Panthagani — UX/UI Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FDF6F8;
+  --bg2: #F5E8EE;
+  --dark: #2C1A22;
+  --dark2: #3D2430;
+  --muted: #8B6B78;
+  --border: #E8D4DC;
+
+  --rose: #C9747A;
+  --rose-light: #FAEAEC;
+  --rose-deep: #A85560;
+  --gold: #C9A84C;
+  --gold-light: #FDF6E3;
+  --gold-deep: #A8893C;
+
+  --bleed: #C0392B;
+  --bleed-light: #FDF0EE;
+  --mixright: #E8572A;
+  --mixright-light: #FEF0EB;
+  --feelora: #7B5EA7;
+  --feelora-light: #F3F0FA;
+  --verdant: #2D5A1B;
+  --verdant-light: #EEF5EB;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--dark);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  width: 12px; height: 12px;
+  background: var(--rose);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease, background 0.2s ease;
+  transform: translate(-50%, -50%);
+}
+.cursor-follower {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--rose);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.3s ease, width 0.3s, height 0.3s, border-color 0.2s;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+}
+.cursor.hovering { transform: translate(-50%, -50%) scale(0); }
+.cursor-follower.hovering { width: 56px; height: 56px; opacity: 1; }
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(253,246,248,0.90);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+nav.scrolled { border-bottom-color: var(--border); }
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+  color: var(--rose-deep);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--dark); }
+.nav-cta {
+  background: linear-gradient(135deg, var(--rose), var(--gold)) !important;
+  color: #fff !important;
+  padding: 10px 20px;
+  border-radius: 100px;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  transition: transform 0.2s, box-shadow 0.2s !important;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 48px 80px;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(ellipse 900px 600px at 80% 50%, rgba(201,116,122,0.08) 0%, transparent 70%), radial-gradient(ellipse 600px 400px at 20% 80%, rgba(201,168,76,0.06) 0%, transparent 60%), var(--bg);
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--rose-deep), var(--gold-deep));
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-bottom: 32px;
+  width: fit-content;
+  animation: fadeUp 0.8s ease forwards;
+  opacity: 0;
+}
+.badge-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.8); }
+}
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(36px, 4.5vw, 64px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--dark);
+  max-width: 900px;
+  animation: fadeUp 0.8s 0.1s ease forwards;
+  opacity: 0;
+}
+.hero-title em {
+  font-style: italic;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  color: var(--rose);
+}
+.hero-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.6;
+  margin-top: 28px;
+  animation: fadeUp 0.8s 0.2s ease forwards;
+  opacity: 0;
+}
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 40px;
+  animation: fadeUp 0.8s 0.3s ease forwards;
+  opacity: 0;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--rose), var(--gold));
+  color: #fff;
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.btn-secondary {
+  background: transparent;
+  color: var(--dark);
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1.5px solid var(--border);
+  transition: border-color 0.2s, background 0.2s;
+}
+.btn-secondary:hover { border-color: var(--dark); background: var(--bg2); }
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  margin-top: 72px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+  animation: fadeUp 0.8s 0.4s ease forwards;
+  opacity: 0;
+}
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--rose), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+}
+.stat-label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+/* FLOATING TAGS */
+.hero-tags {
+  position: absolute;
+  right: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeLeft 1s 0.5s ease forwards;
+  opacity: 0;
+}
+.hero-tag {
+  background: var(--bg2);
+  border: 1px solid var(--rose);
+  border-radius: 100px;
+  padding: 10px 20px;
+  font-size: 13px;
+  color: var(--rose-deep);
+  white-space: nowrap;
+  transition: transform 0.3s ease;
+}
+.hero-tag:nth-child(odd) { transform: translateX(20px); }
+.hero-tag:nth-child(even) { transform: translateX(0px); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translate(24px, -50%); }
+  to { opacity: 1; transform: translate(0, -50%); }
+}
+
+/* SECTION STYLES */
+section { padding: 100px 48px; }
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--rose);
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.05;
+  color: var(--dark);
+  max-width: 600px;
+}
+
+/* PROJECTS */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 56px;
+}
+.project-card {
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: none;
+}
+.project-card:hover { transform: translateY(-8px); }
+.project-card:hover .project-arrow { transform: translate(2px, -2px); }
+
+.project-card.large { grid-column: span 2; }
+
+.project-visual {
+  height: 340px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.project-card.large .project-visual { height: 420px; }
+
+/* BLEED */
+.project-card.bleed .project-visual {
+  background: #0D0D0D;
+}
+.bleed-mockup {
+  width: 220px;
+  background: #1A1A1A;
+  border-radius: 24px;
+  padding: 20px 16px;
+  border: 1px solid #2a2a2a;
+  transform: rotate(-3deg) translateY(-10px);
+  transition: transform 0.4s ease;
+}
+.project-card.bleed:hover .bleed-mockup { transform: rotate(-1deg) translateY(-20px); }
+.bleed-hero-num { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: #E74C3C; letter-spacing: -1px; }
+.bleed-label { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.bleed-sub { font-size: 10px; color: #888; margin-bottom: 8px; }
+.bleed-pill { background: #2D1010; color: #E74C3C; font-size: 9px; padding: 3px 8px; border-radius: 20px; display: inline-block; margin-bottom: 14px; }
+.bleed-card { background: #242424; border-radius: 10px; padding: 8px 10px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.bleed-dot { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; flex-shrink: 0; }
+.bleed-info { flex: 1; }
+.bleed-name { font-size: 9px; font-weight: 500; color: #fff; }
+.bleed-price { font-size: 8px; color: #888; }
+.bleed-bar-wrap { width: 40px; }
+.bleed-track { height: 3px; background: #333; border-radius: 2px; }
+.bleed-fill { height: 3px; border-radius: 2px; }
+
+/* FEELORA */
+.project-card.feelora .project-visual {
+  background: #0A0A0F;
+}
+.feelora-mockup {
+  width: 260px;
+  background: #12121A;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #1C1C28;
+  transform: rotate(2deg);
+  transition: transform 0.4s ease;
+  box-shadow: 0 24px 64px rgba(123,94,167,0.3);
+}
+.project-card.feelora:hover .feelora-mockup { transform: rotate(0deg) translateY(-10px); }
+.feelora-nav { background: #0A0A0F; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 0.5px solid #1C1C28; }
+.feelora-logo { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: #fff; }
+.feelora-dot { width: 5px; height: 5px; border-radius: 50%; background: #7B5EA7; display: inline-block; margin-left: 3px; }
+.feelora-banner { height: 110px; background: linear-gradient(135deg,#2D1F4A,#7B5EA7,#1C1C28); display: flex; align-items: flex-end; padding: 10px 12px; position: relative; }
+.feelora-banner::after { content: '🌸'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 36px; opacity: 0.6; }
+.feelora-badge { background: #7B5EA7; border-radius: 3px; padding: 1px 6px; font-size: 7px; color: #fff; margin-bottom: 4px; display: inline-block; }
+.feelora-title { font-size: 12px; font-weight: 700; color: #fff; }
+.feelora-body { padding: 10px 12px; }
+.feelora-row-label { font-size: 8px; font-weight: 500; color: #fff; margin-bottom: 6px; }
+.feelora-cards { display: flex; gap: 6px; }
+.feelora-card { width: 56px; border-radius: 6px; overflow: hidden; flex-shrink: 0; }
+.feelora-card-img { height: 70px; display: flex; align-items: center; justify-content: center; font-size: 18px; position: relative; }
+.feelora-card-info { padding: 3px 4px; }
+.feelora-card-title { font-size: 7px; font-weight: 500; color: #fff; }
+
+/* MIXRIGHT */
+.project-card.mixright .project-visual {
+  background: #F4F3EF;
+}
+.mixright-mockup {
+  width: 240px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 18px 16px;
+  border: 1px solid #E8E8E0;
+  box-shadow: 0 20px 60px rgba(232,87,42,0.15);
+  transform: rotate(-2deg);
+  transition: transform 0.4s ease;
+}
+.project-card.mixright:hover .mixright-mockup { transform: rotate(0deg) translateY(-12px); }
+.mixright-header { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.mixright-swatch { width: 44px; height: 44px; border-radius: 10px; background: #E8572A; }
+.mixright-title { font-size: 13px; font-weight: 500; color: #1A1A1A; }
+.mixright-sub { font-size: 9px; color: #999; }
+.mixright-bar-label { font-size: 9px; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.mixright-bar { display: flex; gap: 3px; border-radius: 6px; overflow: hidden; height: 28px; margin-bottom: 4px; }
+.mixright-seg { display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; }
+.mixright-labels { display: flex; gap: 3px; margin-bottom: 12px; }
+.mixright-lbl { font-size: 7px; color: #999; text-align: center; }
+.drop-icon { display: inline-block; width: 5px; height: 7px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; margin-right: 1px; }
+.mixright-recipe { display: flex; flex-direction: column; gap: 5px; }
+.mixright-row { display: flex; align-items: center; gap: 7px; }
+.mixright-color-sq { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+.mixright-paint { font-size: 10px; color: #1A1A1A; flex: 1; }
+.mixright-count { font-size: 11px; font-weight: 700; color: #E8572A; }
+
+/* VERDANT */
+.project-card.verdant .project-visual {
+  background: linear-gradient(135deg, #1A2E1A, #2D4A1E, #1A2E1A);
+}
+.verdant-mockup {
+  width: 220px;
+  background: #F5F0E8;
+  border-radius: 24px;
+  padding: 18px 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  transform: rotate(3deg) translateY(-5px);
+  transition: transform 0.4s ease;
+}
+.project-card.verdant:hover .verdant-mockup { transform: rotate(1deg) translateY(-15px); }
+.verdant-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.verdant-logo { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #2D5A1B; }
+.verdant-bell { font-size: 14px; }
+.verdant-task-label { font-size: 8px; color: #7A7060; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.verdant-task { background: #fff; border-radius: 8px; padding: 7px 9px; margin-bottom: 4px; display: flex; align-items: center; gap: 7px; border: 1px solid #E8E8E0; }
+.verdant-task-icon { font-size: 12px; }
+.verdant-task-name { font-size: 9px; font-weight: 500; color: #1A1A1A; }
+.verdant-task-due { font-size: 8px; color: #2D5A1B; margin-left: auto; font-weight: 500; }
+.verdant-plants-label { font-size: 8px; color: #7A7060; text-transform: uppercase; letter-spacing: 0.5px; margin: 10px 0 6px; }
+.verdant-plant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.verdant-plant-card { background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #E8E8E0; }
+.verdant-plant-img { height: 48px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.verdant-plant-info { padding: 4px 6px 5px; }
+.verdant-plant-name { font-size: 8px; font-weight: 500; color: #1A1A1A; }
+.verdant-health { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-left: 3px; }
+
+/* PROJECT INFO */
+.project-info {
+  background: #fff;
+  padding: 28px 32px;
+  border-top: 1px solid var(--border);
+}
+.project-card.bleed .project-info { background: #0D0D0D; border-top-color: #1A1A1A; }
+.project-card.feelora .project-info { background: #0A0A0F; border-top-color: #1C1C28; }
+
+.project-number {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.project-card.bleed .project-number,
+.project-card.feelora .project-number { color: #555566; }
+
+.project-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.project-card.bleed .project-name,
+.project-card.feelora .project-name { color: #fff; }
+
+.project-arrow {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+.project-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.project-card.bleed .project-desc,
+.project-card.feelora .project-desc { color: #666677; }
+
+.project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.project-tag {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.project-card.bleed .project-tag { border-color: #2A2A2A; color: #666; }
+.project-card.feelora .project-tag { border-color: #1C1C28; color: #666677; }
+
+.project-links { display: flex; gap: 10px; }
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.project-link:hover { transform: translateY(-1px); }
+.link-figma { background: var(--bg2); color: var(--dark); border: 1px solid var(--border); }
+.link-live { color: #fff; }
+
+.bleed-live { background: var(--bleed); }
+.feelora-live { background: var(--feelora); }
+.mixright-live { background: var(--mixright); }
+.verdant-live { background: var(--verdant); }
+
+.project-card.bleed .link-figma { background: #1A1A1A; color: #888; border-color: #2A2A2A; }
+.project-card.feelora .link-figma { background: #12121A; color: #888899; border-color: #1C1C28; }
+
+/* ABOUT */
+.about-section {
+  background: linear-gradient(135deg, #2C1A22, #3D2430, #2C1520);
+  color: #fff;
+  padding: 100px 48px;
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  margin-top: 56px;
+}
+.about-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  color: #fff;
+  margin-bottom: 24px;
+}
+.about-title em { color: #C9A84C; font-style: italic; font-family: 'DM Sans', sans-serif; font-weight: 300; }
+.about-body { font-size: 16px; color: #888; line-height: 1.7; margin-bottom: 32px; }
+.about-body strong { color: #fff; font-weight: 500; }
+.about-right { display: flex; flex-direction: column; gap: 16px; }
+.about-skill-group { background: #1A1A1A; border-radius: 16px; padding: 20px 24px; }
+.skill-group-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+.skills-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-tag {
+  background: #242424;
+  color: #ccc;
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid #2A2A2A;
+  transition: border-color 0.2s, color 0.2s;
+}
+.skill-tag:hover { border-color: #555; color: #fff; }
+
+/* SKILLS VISUAL */
+.skills-section { background: var(--rose-light); padding: 100px 48px; }
+.skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 56px; }
+.skill-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 24px;
+  border: 1px solid var(--border);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+}
+.skill-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(201,116,122,0.15); border-color: var(--rose); }
+.skill-card-icon { font-size: 28px; margin-bottom: 14px; }
+.skill-card-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--rose-deep); margin-bottom: 8px; }
+.skill-card-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.skill-card-tools { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px; }
+.tool-pill { font-size: 10px; padding: 3px 8px; border-radius: 100px; background: var(--bg); border: 1px solid var(--border); color: var(--muted); }
+
+/* CONTACT */
+.contact-section {
+  padding: 100px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.contact-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 800px 600px at 50% 100%, rgba(15,15,15,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.contact-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--rose-deep), var(--gold-deep));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  max-width: 700px;
+  margin-bottom: 20px;
+}
+.contact-sub { font-size: 18px; color: var(--muted); margin-bottom: 40px; }
+.contact-links { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 60px; }
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.contact-link:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.contact-email { background: linear-gradient(135deg, var(--rose-deep), var(--gold-deep)); color: #fff; }
+.contact-linkedin { background: #0A66C2; color: #fff; }
+.contact-resume { background: var(--gold-light); color: var(--gold-deep); border: 1.5px solid var(--gold); }
+
+/* FOOTER */
+footer {
+  padding: 32px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; background: linear-gradient(135deg, var(--rose), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.footer-copy { font-size: 13px; color: var(--muted); }
+
+/* SCROLL ANIMATIONS */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* MARQUEE */
+.marquee-section {
+  padding: 28px 0;
+  background: linear-gradient(135deg, #2C1A22, #3D2430);
+  overflow: hidden;
+  border-top: 1px solid #1A1A1A;
+  border-bottom: 1px solid #1A1A1A;
+}
+.marquee-track {
+  display: flex;
+  gap: 48px;
+  animation: marquee 20s linear infinite;
+  width: max-content;
+}
+.marquee-item {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #C9A84C;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.marquee-item span { color: var(--rose); font-size: 18px; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .hero { padding: 100px 24px 60px; }
+  .hero-tags { display: none; }
+  .hero-stats { gap: 28px; }
+  section { padding: 60px 24px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card.large { grid-column: span 1; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-section { padding: 60px 24px; }
+  .contact-section { padding: 60px 24px; }
+  footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+}
+
+/* FIGMA COMING SOON MODAL */
+.figma-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(44, 26, 34, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+.figma-modal-overlay.active {
+  display: flex;
+}
+.figma-modal {
+  background: #FDF6F8;
+  border-radius: 24px;
+  padding: 48px 40px;
+  max-width: 440px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  border: 1px solid #E8D4DC;
+  animation: modalPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.85) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.figma-modal-close {
+  position: absolute;
+  top: 16px; right: 20px;
+  font-size: 20px;
+  color: #8B6B78;
+  cursor: pointer;
+  background: none;
+  border: none;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.figma-modal-close:hover { color: #2C1A22; }
+.figma-modal-icon {
+  width: 72px; height: 72px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #F5E8EE, #FDF6E3);
+  border: 1px solid #E8D4DC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 32px;
+}
+.figma-modal-spinner {
+  width: 48px; height: 48px;
+  border: 3px solid #E8D4DC;
+  border-top-color: #C9747A;
+  border-right-color: #C9A84C;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.figma-modal-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #2C1A22;
+  margin-bottom: 10px;
+}
+.figma-modal-project {
+  font-size: 13px;
+  font-weight: 600;
+  color: #C9747A;
+  background: #FAEAEC;
+  border-radius: 100px;
+  padding: 4px 14px;
+  display: inline-block;
+  margin-bottom: 14px;
+}
+.figma-modal-desc {
+  font-size: 14px;
+  color: #8B6B78;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.figma-modal-progress {
+  background: #F5E8EE;
+  border-radius: 100px;
+  height: 6px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.figma-modal-bar {
+  height: 6px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, #C9747A, #C9A84C);
+  animation: progressFill 2s ease-in-out infinite alternate;
+}
+@keyframes progressFill {
+  from { width: 35%; }
+  to { width: 85%; }
+}
+.figma-modal-hint {
+  font-size: 12px;
+  color: #C9A84C;
+  font-style: italic;
+}
+.figma-modal-notify {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.figma-modal-email {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #E8D4DC;
+  border-radius: 100px;
+  font-size: 13px;
+  color: #2C1A22;
+  background: #fff;
+  outline: none;
+  font-family: 'DM Sans', sans-serif;
+}
+.figma-modal-email:focus { border-color: #C9747A; }
+.figma-modal-notify-btn {
+  background: linear-gradient(135deg, #C9747A, #C9A84C);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+  transition: transform 0.2s;
+}
+.figma-modal-notify-btn:hover { transform: translateY(-1px); }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Apoorva ✦</a>
+  <div class="nav-links">
+    <a href="#projects">Work</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact" class="nav-cta">Let's talk →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-badge">
+    <div class="badge-dot"></div>
+    Available for opportunities
+  </div>
+  <h1 class="hero-title">
+    I design like I crochet —<br>one <em>intentional stitch</em><br>at a time.
+  </h1>
+  <p class="hero-sub">Junior UX/UI Designer who builds from real life frustrations. Every project I've made is something I genuinely needed — and couldn't find anywhere.</p>
+  <div class="hero-actions">
+    <a href="#projects" class="btn-primary">View my work →</a>
+    <a href="#contact" class="btn-secondary">Get in touch</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">4</div>
+      <div class="stat-label">Portfolio projects</div>
+    </div>
+    <div>
+      <div class="stat-num">4</div>
+      <div class="stat-label">Live demos built</div>
+    </div>
+    <div>
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Passion for UX</div>
+    </div>
+  </div>
+  <div class="hero-tags">
+    <div class="hero-tag">Figma</div>
+    <div class="hero-tag">UX Research</div>
+    <div class="hero-tag">UI Design</div>
+    <div class="hero-tag">Prototyping</div>
+    <div class="hero-tag">Design Systems</div>
+    <div class="hero-tag">Vibe Coding</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">UX Research <span>✦</span></div>
+    <div class="marquee-item">UI Design <span>✦</span></div>
+    <div class="marquee-item">Figma <span>✦</span></div>
+    <div class="marquee-item">Prototyping <span>✦</span></div>
+    <div class="marquee-item">Design Systems <span>✦</span></div>
+    <div class="marquee-item">User Testing <span>✦</span></div>
+    <div class="marquee-item">Wireframing <span>✦</span></div>
+    <div class="marquee-item">Interaction Design <span>✦</span></div>
+    <div class="marquee-item">UX Research <span>✦</span></div>
+    <div class="marquee-item">UI Design <span>✦</span></div>
+    <div class="marquee-item">Figma <span>✦</span></div>
+    <div class="marquee-item">Prototyping <span>✦</span></div>
+    <div class="marquee-item">Design Systems <span>✦</span></div>
+    <div class="marquee-item">User Testing <span>✦</span></div>
+    <div class="marquee-item">Wireframing <span>✦</span></div>
+    <div class="marquee-item">Interaction Design <span>✦</span></div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">Selected work</div>
+    <h2 class="section-title">Projects that tell a story</h2>
+  </div>
+  <div class="projects-grid">
+
+    <!-- BLEED -->
+    <div class="project-card bleed reveal reveal-delay-1">
+      <div class="project-visual">
+        <div class="bleed-mockup">
+          <div class="bleed-label">Bleeding per month</div>
+          <div class="bleed-hero-num">$284</div>
+          <div class="bleed-sub">you use $96 worth</div>
+          <div class="bleed-pill">67% wasted</div>
+          <div class="bleed-card">
+            <div class="bleed-dot" style="background:#E50914">N</div>
+            <div class="bleed-info"><div class="bleed-name">Netflix</div><div class="bleed-price">$15.99/mo</div></div>
+            <div class="bleed-bar-wrap"><div class="bleed-track"><div class="bleed-fill" style="width:90%;background:#E74C3C;"></div></div></div>
+          </div>
+          <div class="bleed-card">
+            <div class="bleed-dot" style="background:#1DB954">S</div>
+            <div class="bleed-info"><div class="bleed-name">Spotify</div><div class="bleed-price">$9.99/mo</div></div>
+            <div class="bleed-bar-wrap"><div class="bleed-track"><div class="bleed-fill" style="width:15%;background:#27AE60;"></div></div></div>
+          </div>
+          <div class="bleed-card">
+            <div class="bleed-dot" style="background:#FF9900">A</div>
+            <div class="bleed-info"><div class="bleed-name">Amazon</div><div class="bleed-price">$14.99/mo</div></div>
+            <div class="bleed-bar-wrap"><div class="bleed-track"><div class="bleed-fill" style="width:45%;background:#E67E22;"></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-number">01 / Fintech · Emotional Design</div>
+        <div class="project-name">Bleed — Subscription Tracker <span class="project-arrow">↗</span></div>
+        <div class="project-desc">A pain score system that shows you how much your subscriptions hurt — not just what they cost. Dark, urgent, unforgettable.</div>
+        <div class="project-tags">
+          <span class="project-tag">UX Research</span>
+          <span class="project-tag">UI Design</span>
+          <span class="project-tag">Emotional Design</span>
+          <span class="project-tag">Mobile + Web</span>
+        </div>
+        <div class="project-links">
+          <a href="#" onclick="openFigmaModal('Bleed');return false;" class="project-link link-figma">🎨 Figma <span style="font-size:9px;opacity:0.7;">— soon</span></a>
+          <a href="https://subscription-pain-tracker--apoorvapanthaga.replit.app" target="_blank" class="project-link link-live bleed-live" rel="noopener">↗ Live demo</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEELORA -->
+    <div class="project-card feelora reveal reveal-delay-2">
+      <div class="project-visual">
+        <div class="feelora-mockup">
+          <div class="feelora-nav">
+            <div class="feelora-logo">feelora<span class="feelora-dot"></span></div>
+            <div style="font-size:12px;color:#888899;">🔍 🔔</div>
+          </div>
+          <div class="feelora-banner">
+            <div style="position:relative;z-index:2;">
+              <div class="feelora-badge">#1 K-Drama Today</div>
+              <div class="feelora-title">Crash Landing on You</div>
+            </div>
+          </div>
+          <div class="feelora-body">
+            <div class="feelora-row-label">🦋 Matched to your mood</div>
+            <div class="feelora-cards">
+              <div class="feelora-card"><div class="feelora-card-img" style="background:linear-gradient(135deg,#2D1F4A,#7B5EA7);">🌸</div><div class="feelora-card-info"><div class="feelora-card-title">Her Private Life</div></div></div>
+              <div class="feelora-card"><div class="feelora-card-img" style="background:linear-gradient(135deg,#3D1010,#E87070);">🗡️</div><div class="feelora-card-info"><div class="feelora-card-title">Vincenzo</div></div></div>
+              <div class="feelora-card"><div class="feelora-card-img" style="background:linear-gradient(135deg,#2D1F4A,#9B59B6);">🌌</div><div class="feelora-card-info"><div class="feelora-card-title">Goblin</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-number">02 / Entertainment · Complex System</div>
+        <div class="project-name">Feelora — K-Drama Platform <span class="project-arrow">↗</span></div>
+        <div class="project-desc">A streaming platform built exclusively for K-drama and C-drama fans. Mood-based discovery, trope browsing, binge planning — everything Netflix doesn't have.</div>
+        <div class="project-tags">
+          <span class="project-tag">Product Design</span>
+          <span class="project-tag">Design System</span>
+          <span class="project-tag">Web Platform</span>
+          <span class="project-tag">React</span>
+        </div>
+        <div class="project-links">
+          <a href="#" onclick="openFigmaModal('Feelora');return false;" class="project-link link-figma">🎨 Figma <span style="font-size:9px;opacity:0.7;">— soon</span></a>
+          <a href="https://feelora-287dd3.netlify.app" target="_blank" class="project-link link-live feelora-live" rel="noopener">↗ Live demo</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MIXRIGHT -->
+    <div class="project-card mixright reveal reveal-delay-1">
+      <div class="project-visual">
+        <div class="mixright-mockup">
+          <div class="mixright-header">
+            <div class="mixright-swatch"></div>
+            <div>
+              <div class="mixright-title">Terracotta Orange</div>
+              <div class="mixright-sub">Acrylic · 10 drops total</div>
+            </div>
+          </div>
+          <div class="mixright-bar-label">Drop recipe</div>
+          <div class="mixright-bar">
+            <div class="mixright-seg" style="flex:6;background:#F5E6D3;color:#8B7355;">
+              <span class="drop-icon" style="background:#D4C4B3;"></span>×6
+            </div>
+            <div class="mixright-seg" style="flex:3;background:#E8572A;color:#fff;">
+              <span class="drop-icon" style="background:rgba(255,255,255,0.4);"></span>×3
+            </div>
+            <div class="mixright-seg" style="flex:1;background:#8B4513;color:#fff;font-size:7px;">×1</div>
+          </div>
+          <div class="mixright-labels">
+            <div class="mixright-lbl" style="flex:6;">Titanium White</div>
+            <div class="mixright-lbl" style="flex:3;">Cad Red</div>
+            <div class="mixright-lbl" style="flex:1;">Umber</div>
+          </div>
+          <div class="mixright-recipe">
+            <div class="mixright-row"><div class="mixright-color-sq" style="background:#F5E6D3;border:1px solid #E8E8E0;"></div><div class="mixright-paint">Titanium White</div><div class="mixright-count">×6</div></div>
+            <div class="mixright-row"><div class="mixright-color-sq" style="background:#E8572A;"></div><div class="mixright-paint">Cadmium Red</div><div class="mixright-count">×3</div></div>
+            <div class="mixright-row"><div class="mixright-color-sq" style="background:#8B4513;"></div><div class="mixright-paint">Raw Umber</div><div class="mixright-count">×1</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-number">03 / Creative Tools · Niche Design</div>
+        <div class="project-name">MixRight — Paint Mixing App <span class="project-arrow">↗</span></div>
+        <div class="project-desc">The artist's mixing companion. Scan any colour, get an exact recipe in paint drops — not percentages. Because artists count drops, not percentages.</div>
+        <div class="project-tags">
+          <span class="project-tag">Camera UX</span>
+          <span class="project-tag">Mobile + Web</span>
+          <span class="project-tag">Artist Tools</span>
+          <span class="project-tag">Drop Recipe System</span>
+        </div>
+        <div class="project-links">
+          <a href="#" onclick="openFigmaModal('MixRight');return false;" class="project-link link-figma">🎨 Figma <span style="font-size:9px;opacity:0.7;">— soon</span></a>
+          <a href="https://mixrightpaint.netlify.app" target="_blank" class="project-link link-live mixright-live" rel="noopener">↗ Live demo</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- VERDANT -->
+    <div class="project-card verdant reveal reveal-delay-2">
+      <div class="project-visual">
+        <div class="verdant-mockup">
+          <div class="verdant-header">
+            <div class="verdant-logo">Verdant 🌿</div>
+            <div class="verdant-bell">🔔</div>
+          </div>
+          <div class="verdant-task-label">Today's care</div>
+          <div class="verdant-task"><div class="verdant-task-icon">💧</div><div><div class="verdant-task-name">Water Monstera</div></div><div class="verdant-task-due">Overdue</div></div>
+          <div class="verdant-task"><div class="verdant-task-icon">☀️</div><div><div class="verdant-task-name">Rotate Fiddle Leaf</div></div><div class="verdant-task-due">Today</div></div>
+          <div class="verdant-plants-label">My garden</div>
+          <div class="verdant-plant-grid">
+            <div class="verdant-plant-card"><div class="verdant-plant-img" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9);">🌿</div><div class="verdant-plant-info"><div class="verdant-plant-name">Monstera <span class="verdant-health" style="background:#27AE60;"></span></div></div></div>
+            <div class="verdant-plant-card"><div class="verdant-plant-img" style="background:linear-gradient(135deg,#FFF8E1,#FFE082);">🌺</div><div class="verdant-plant-info"><div class="verdant-plant-name">Orchid <span class="verdant-health" style="background:#F0C040;"></span></div></div></div>
+            <div class="verdant-plant-card"><div class="verdant-plant-img" style="background:linear-gradient(135deg,#E8F5E9,#A5D6A7);">🌵</div><div class="verdant-plant-info"><div class="verdant-plant-name">Snake Plant <span class="verdant-health" style="background:#27AE60;"></span></div></div></div>
+            <div class="verdant-plant-card"><div class="verdant-plant-img" style="background:linear-gradient(135deg,#FCE4EC,#F48FB1);">🌸</div><div class="verdant-plant-info"><div class="verdant-plant-name">Peace Lily <span class="verdant-health" style="background:#E74C3C;"></span></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-number">04 / Health Tech · Emotional UX</div>
+        <div class="project-name">Verdant — Plant Care App <span class="project-arrow">↗</span></div>
+        <div class="project-desc">Your personal plant doctor. Scan to identify any plant, diagnose diseases from a photo, and get personalised care schedules. For people who love their plants.</div>
+        <div class="project-tags">
+          <span class="project-tag">Camera AI UX</span>
+          <span class="project-tag">Mobile App</span>
+          <span class="project-tag">Disease Diagnosis</span>
+          <span class="project-tag">Accessibility</span>
+        </div>
+        <div class="project-links">
+          <a href="#" onclick="openFigmaModal('Verdant');return false;" class="project-link link-figma">🎨 Figma <span style="font-size:9px;opacity:0.7;">— soon</span></a>
+          <a href="https://botanical-bot.netlify.app" target="_blank" class="project-link link-live verdant-live" rel="noopener">↗ Live demo</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="about-section" id="about">
+  <div class="section-label" style="color:#C9A84C;">About me</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="about-title">I came for the code.<br>I stayed for <em>the design.</em></h2>
+
+      <p class="about-body">I started out studying software development at SAIT — and somewhere between writing code and using badly designed apps every single day, I realised what I actually wanted to do was <strong>make things feel right</strong>. Not just work. Feel right.</p>
+
+      <p class="about-body">That switch wasn't accidental. I grew up drawing, painting, crocheting — I've always made things with my hands. When I discovered UX/UI design it felt like the first time my technical brain and my creative brain were finally working in the same direction.</p>
+
+      <p class="about-body">Every project I've built comes from something I genuinely felt. <strong>Bleed</strong> came from the quiet guilt of paying for things I never use. <strong>Feelora</strong> came from being a K-drama fan who was tired of Netflix burying the good stuff. <strong>MixRight</strong> came from painting and not knowing how to recreate a colour I loved. <strong>Verdant</strong> came from killing plants and wishing something could tell me why.</p>
+
+      <p class="about-body">I think the best design comes from <strong>actually caring</strong> about the problem. Not just studying it — living it.</p>
+
+      <p class="about-body" style="color:#C9A84C;font-style:italic;">When I'm not designing: you'll find me mid-crochet project, mixing paint colours I probably can't recreate, or three episodes deep into a drama I swore I'd only watch one episode of.</p>
+
+      <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap;">
+        <a href="#contact" class="btn-primary">Work with me →</a>
+        <a href="Apoorva_Panthagani_Resume_2025.pdf" download="Apoorva_Panthagani_Resume_2025.pdf" class="btn-secondary" style="background:transparent;color:#C9A84C;border-color:#C9A84C;">↓ Download Resume</a>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="about-skill-group">
+        <div class="skill-group-label">Design</div>
+        <div class="skills-row">
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">UI Design</span>
+          <span class="skill-tag">UX Research</span>
+          <span class="skill-tag">Wireframing</span>
+          <span class="skill-tag">Prototyping</span>
+          <span class="skill-tag">Design Systems</span>
+          <span class="skill-tag">Component Libraries</span>
+        </div>
+      </div>
+      <div class="about-skill-group">
+        <div class="skill-group-label">Research & Strategy</div>
+        <div class="skills-row">
+          <span class="skill-tag">User Interviews</span>
+          <span class="skill-tag">Usability Testing</span>
+          <span class="skill-tag">Personas</span>
+          <span class="skill-tag">Journey Mapping</span>
+          <span class="skill-tag">Competitor Analysis</span>
+          <span class="skill-tag">WCAG Accessibility</span>
+        </div>
+      </div>
+      <div class="about-skill-group">
+        <div class="skill-group-label">Outside of design</div>
+        <div class="skills-row">
+          <span class="skill-tag">🧶 Crocheting</span>
+          <span class="skill-tag">🎨 Painting</span>
+          <span class="skill-tag">📺 K-dramas</span>
+          <span class="skill-tag">🌿 Plant parent</span>
+        </div>
+      </div>
+      <div class="about-skill-group">
+        <div class="skill-group-label">Building & Tools</div>
+        <div class="skills-row">
+          <span class="skill-tag">Lovable.dev</span>
+          <span class="skill-tag">Bolt.new</span>
+          <span class="skill-tag">Replit</span>
+          <span class="skill-tag">GitHub</span>
+          <span class="skill-tag">Netlify</span>
+          <span class="skill-tag">React (basics)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="reveal">
+    <div class="section-label">What I bring</div>
+    <h2 class="section-title">Skills that get results</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal reveal-delay-1">
+      <div class="skill-card-icon">🔍</div>
+      <div class="skill-card-title">UX Research</div>
+      <div class="skill-card-desc">User interviews, usability testing, personas, journey maps. I design from evidence not assumptions.</div>
+      <div class="skill-card-tools">
+        <span class="tool-pill">User Interviews</span>
+        <span class="tool-pill">Usability Testing</span>
+        <span class="tool-pill">Affinity Mapping</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-delay-2">
+      <div class="skill-card-icon">🎨</div>
+      <div class="skill-card-title">UI Design</div>
+      <div class="skill-card-desc">High-fidelity screens, design systems, component libraries. Every pixel is intentional.</div>
+      <div class="skill-card-tools">
+        <span class="tool-pill">Figma</span>
+        <span class="tool-pill">Design Systems</span>
+        <span class="tool-pill">Components</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-delay-3">
+      <div class="skill-card-icon">⚡</div>
+      <div class="skill-card-title">Prototyping</div>
+      <div class="skill-card-desc">Working clickable prototypes in Figma plus live demos built with AI coding tools.</div>
+      <div class="skill-card-tools">
+        <span class="tool-pill">Figma Prototype</span>
+        <span class="tool-pill">Lovable.dev</span>
+        <span class="tool-pill">Bolt.new</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-delay-4">
+      <div class="skill-card-icon">♿</div>
+      <div class="skill-card-title">Accessibility</div>
+      <div class="skill-card-desc">WCAG 2.1 AA compliant designs. I build for everyone not just the average user.</div>
+      <div class="skill-card-tools">
+        <span class="tool-pill">WCAG 2.1 AA</span>
+        <span class="tool-pill">Contrast Ratios</span>
+        <span class="tool-pill">Screen Readers</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-bg"></div>
+  <div class="reveal">
+    <div class="section-label" style="justify-content:center;">Get in touch</div>
+  </div>
+  <h2 class="contact-title reveal">Let's build something great together</h2>
+  <p class="contact-sub reveal">Open to junior UX/UI roles, internships, and freelance projects.</p>
+  <div class="contact-links reveal">
+    <a href="mailto:apoorvapanthagani@gmail.com" class="contact-link contact-email">✉️ apoorvapanthagani@gmail.com</a>
+    <a href="https://linkedin.com/in/apoorva-panthagani89768a266" target="_blank" class="contact-link contact-linkedin">in LinkedIn</a>
+    <a href="Apoorva_Panthagani_Resume_2025.pdf" download="Apoorva_Panthagani_Resume_2025.pdf" class="contact-link contact-resume">↓ Download Resume</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Apoorva Panthagani ✦</div>
+  <div class="footer-copy">Designed & built with care · 2025</div>
+</footer>
+
+<script>
+// CUSTOM CURSOR
+const cursor = document.getElementById('cursor');
+const follower = document.getElementById('cursorFollower');
+let mouseX = 0, mouseY = 0;
+let followerX = 0, followerY = 0;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursor.style.left = mouseX + 'px';
+  cursor.style.top = mouseY + 'px';
+});
+
+function animateFollower() {
+  followerX += (mouseX - followerX) * 0.12;
+  followerY += (mouseY - followerY) * 0.12;
+  follower.style.left = followerX + 'px';
+  follower.style.top = followerY + 'px';
+  requestAnimationFrame(animateFollower);
+}
+animateFollower();
+
+document.querySelectorAll('a, button, .project-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.classList.add('hovering');
+    follower.classList.add('hovering');
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.classList.remove('hovering');
+    follower.classList.remove('hovering');
+  });
+});
+
+// NAVBAR SCROLL
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// SCROLL REVEAL
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(el => observer.observe(el));
+
+// STAT COUNTER
+function countUp(el, target, duration) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) { el.textContent = target + (el.dataset.suffix || ''); clearInterval(timer); }
+    else el.textContent = Math.round(start) + (el.dataset.suffix || '');
+  }, 16);
+}
+
+// FIGMA MODAL
+function openFigmaModal(projectName) {
+  document.getElementById('modalProjectName').textContent = projectName;
+  document.getElementById('figmaModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeFigmaModal() {
+  document.getElementById('figmaModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.getElementById('figmaModal').addEventListener('click', function(e) {
+  if (e.target === this) closeFigmaModal();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeFigmaModal();
+});
+function handleNotify() {
+  const email = document.getElementById('notifyEmail').value;
+  const btn = document.querySelector('.figma-modal-notify-btn');
+  if (email && email.includes('@')) {
+    btn.textContent = '✓ Added!';
+    btn.style.background = '#2E7D52';
+    setTimeout(() => {
+      btn.textContent = 'Notify me';
+      btn.style.background = '';
+      document.getElementById('notifyEmail').value = '';
+    }, 2500);
+  } else {
+    document.getElementById('notifyEmail').style.borderColor = '#C9747A';
+    setTimeout(() => {
+      document.getElementById('notifyEmail').style.borderColor = '';
+    }, 1500);
+  }
+}
+
+</script>
+
+<!-- FIGMA COMING SOON MODAL -->
+<div class="figma-modal-overlay" id="figmaModal">
+  <div class="figma-modal">
+    <button class="figma-modal-close" onclick="closeFigmaModal()">×</button>
+    <div class="figma-modal-spinner"></div>
+    <div class="figma-modal-project" id="modalProjectName">Bleed</div>
+    <div class="figma-modal-title">Figma case study<br>uploading soon</div>
+    <div class="figma-modal-desc">The full case study — wireframes, components, hi-fi screens, and design decisions — is being finalised in Figma right now. Check back soon!</div>
+    <div class="figma-modal-progress">
+      <div class="figma-modal-bar"></div>
+    </div>
+    <div class="figma-modal-hint">✦ Uploading design files...</div>
+    <div class="figma-modal-notify">
+      <input type="email" class="figma-modal-email" placeholder="Get notified when it's live" id="notifyEmail">
+      <button class="figma-modal-notify-btn" onclick="handleNotify()">Notify me</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
